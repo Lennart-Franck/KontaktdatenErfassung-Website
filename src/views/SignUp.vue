@@ -1,14 +1,23 @@
 <template>
-  <div>
-      <h1>Sign Up</h1>
-      <input type="text" placeholder="Email" v-model="email">
-      <input type="text" placeholder="Passwort" v-model="password">
-      <input type="text" placeholder="Passwort Wiederholen" v-model="password_repeat">
-      <input type="text" placeholder="Name" v-model="name">
-      <input type="text" placeholder="Telefon" v-model="telefon">
-      <input type="button" @click="signUp" value="Sign Up">
-      <p> <v-if="msg">{{msg}} </p>
-  </div>
+    <v-container>
+        <v-row>
+            <v-col class="col-md-6 offset-md-3">
+                <h1>Als Unternehmen registrieren</h1>
+                <h4>Und noch heute die Vorteile von Kontakterfassung nutzen!</h4>
+                <v-form v-model="formValidity">
+                    <v-text-field label="Email" type="email" v-model="email" :rules="emailRules" required></v-text-field>
+                    <v-text-field label="Passwort" type="password"></v-text-field>
+                    <v-text-field label="Name des Unternehmen" type="text"></v-text-field>
+                    <v-text-field label="Telefon" type="tel"></v-text-field>
+
+                    <v-spacer></v-spacer>
+                    <v-checkbox label="Allgemeinen Geschäftsbedingungen zustimmen" v-model="agreeToTerms" :rules="agreeToTermsRules" required></v-checkbox>
+                    <v-spacer></v-spacer>
+                    <v-btn type="submit" :disabled="!formValidity" @click="validateForm" color="primary">Registrieren</v-btn>
+                </v-form>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <script>
@@ -17,12 +26,24 @@ import AuthService from '../services/AuthService.js';
 export default {
     data() {
         return {
+            agreeToTerms: false,
+            agreeToTermsRules: [
+                value => !!value || 'Du musst den allgemeinen Geschäftsbedingungen zustimmen, um einen Account zu erstellen'
+            ],
             email: '',
+            emailRules: [
+                value => !!value || 'Email ist erforderlich.',
+                value => value.indexOf('@') !== 0 || 'Email ist nicht korrekt.',
+                value => value.includes('@') || 'Email muss ein @ enthalten.',
+                value => value.indexOf('.', value.length-4) - value.indexOf('@') > 1 || 'Die Email muss eine korrekte Domain enthalten',
+                value => value.indexOf('.', value.length-4) <= value.length -3 || 'Die Email muss eine korrekte Domain enthalten'
+            ],
             password: '',
             password_repeat: '',
             name: '',
             telefon: '',
-            msg: ''
+            msg: '',
+            formValidity: false
         };
     },
     methods: {
