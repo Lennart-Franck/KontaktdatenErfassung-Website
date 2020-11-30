@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 const url = 'https://kontaktdaten-api.azurewebsites.net/api/';
+axios.defaults.headers["ApiKey"] = "7ZlKpU3mozOE0Wb";
 
 export default {
     login(credentials) {

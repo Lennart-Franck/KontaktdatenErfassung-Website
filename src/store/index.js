@@ -1,53 +1,54 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Axios from 'axios'
-import createPersistedState from 'vuex-persistedstate'
+import axios from 'axios'
 
 Vue.use(Vuex)
 
-const getDefaultState = () => {
-  return {
-    apiKey : '',
-    user: {}
-  };
-};
 
-
+const url = 'https://kontaktdaten-api.azurewebsites.net/api/';
 
 export default new Vuex.Store({
-  strict: true,
-  plugins: [createPersistedState()],
-  state: getDefaultState(),
-  getters: {
-    isLoggedIn : state => {
-      return state.apiKey;
-    },
-    getUser: state => {
-      return state.user;
-    }
+  state: {
+    user: null
   },
   mutations: {
-    SET_KEY: (state, apiKey) => {
-      state.apiKey = apiKey;
+    SET_USER_DATA(state, userData) {
+      state.user = userData
+      localStorage.setItem('user', JSON.stringify(userData))
+      axios.defaults.headers.common['Authorization'] = `Bearer ${
+        userData.token
+      }`
     },
-    SET_USER: (state, user) => {
-      state.user = user;
-    },
-    RESET: state => {
-      Object.assign(state,getDefaultState());
+    CLEAR_USER_DATA() {
+      localStorage.removeItem('user')
+      location.reload()
     }
   },
   actions: {
-    login: ({commit }, {apiKey, user}) => {
-      commit('SET_KEY', apiKey);
-      commit('SET_USER', user);
-
-      Axios.defaults.headers.common['ApiKey'] = apiKey;
+    register({commit}, credentials) {
+      return axios
+      .post(url + 'sign-up', credentials)
+      .then(
+        ({data}) => {
+          commit('SET_USER_DATA', data)
+        }
+      )
     },
-    logout: ({commit}) => {
-      commit('RESET', '');
+    login ({commit}, credentials) {
+      return axios
+      .post(url + 'login', credentials)
+      .then (
+        ({data}) => {
+          commit('SET_USER_DATA', data)
+        })
+    },
+    logout({commit }) {
+      commit('CLEAR_USER_DATA')
     }
   },
-  modules: {
+  getters: {
+    loggedIn(state) {
+      return !!state.user
+    }
   }
 })
