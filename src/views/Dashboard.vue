@@ -2,11 +2,11 @@
   <div>
     <v-container>
       <v-row>
-        <v-col>
+        <v-col cols="12" md="6">
           <h1>Dashboard</h1>
           <h4>Hier können Sie alle Ihre Orte verwalten</h4>
         </v-col>
-        <v-col>
+        <v-col offset-md="3">
           <v-btn class="info">
             Ort hinzufügen
           </v-btn>
@@ -15,7 +15,15 @@
       <template v-if="!isLoading">
         <v-container fluid>
           <v-row>
-            <v-col v-for="place in places" :key="place.ortId" class="col-md-3">
+            <v-col
+              v-for="place in places"
+              :key="place.ortId"
+              cols="12"
+              md="6"
+              sm="6"
+              lg="4"
+              xl="3"
+            >
               <PlaceCard :place="place" />
             </v-col>
           </v-row>

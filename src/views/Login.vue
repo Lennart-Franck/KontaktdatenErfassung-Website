@@ -33,6 +33,12 @@
               Login
             </v-btn>
             <v-spacer></v-spacer>
+            <div v-if="isLoading">
+              <v-progress-circular
+                indeterminate
+                color="primary"
+              ></v-progress-circular>
+            </div>
             <div class="red--text">
               {{ error }}
             </div>
@@ -65,10 +71,12 @@ export default {
       ],
       error: null,
       formValidity: false,
+      isLoading: false,
     }
   },
   methods: {
     login() {
+      this.isLoading = true
       this.$store
         .dispatch('login', {
           email: this.email,
@@ -78,6 +86,7 @@ export default {
           this.$router.push('/dashboard')
         })
         .catch((err) => {
+          this.isLoading = false
           this.error = err.response.data
           console.log(this.error)
         })

@@ -15,7 +15,7 @@
         </v-btn>
         <v-col class="primary lighten-2 py-4 text-center white--text" cols="12">
           {{ new Date().getFullYear() }} —
-          <strong>Kontakt Erfassung</strong>
+          <strong>Erfasst!</strong>
         </v-col>
       </v-row>
     </v-footer>

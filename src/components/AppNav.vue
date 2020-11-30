@@ -27,21 +27,46 @@
         </v-btn>
       </div>
       <div v-else>
-        <v-btn text rounded @click="logout">
+        <v-btn
+          v-for="link in authLinks"
+          :key="`${link.label}-header-link`"
+          text
+          rounded
+          :to="link.url"
+          class="hidden-sm-and-down"
+        >
+          {{ link.label }}
+        </v-btn>
+        <v-btn text rounde @click="logout" class="hidden-sm-and-down">
           Ausloggen
         </v-btn>
       </div>
     </v-app-bar>
+
     <v-navigation-drawer v-model="drawer" absolute temporary>
       <v-list nav dense>
         <v-list-item-group active-class="deep-blue--text text--accent-4">
-          <v-list-item
-            v-for="link in links"
-            :key="`${link.label}-header-link`"
-            :to="link.url"
-          >
-            <v-list-item-title>{{ link.label }}</v-list-item-title>
-          </v-list-item>
+          <div v-if="!loggedIn">
+            <v-list-item
+              v-for="link in links"
+              :key="`${link.label}-header-link`"
+              :to="link.url"
+            >
+              <v-list-item-title>{{ link.label }}</v-list-item-title>
+            </v-list-item>
+          </div>
+          <div v-else>
+            <v-list-item
+              v-for="link in authLinks"
+              :key="`${link.label}-header-link`"
+              :to="link.url"
+            >
+              <v-list-item-title>{{ link.label }}</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="logout">
+              <v-list-item-title>Ausloggen</v-list-item-title>
+            </v-list-item>
+          </div>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
@@ -66,6 +91,12 @@ export default {
         {
           label: 'Registrieren',
           url: '/sign-up',
+        },
+      ],
+      authLinks: [
+        {
+          label: 'Dashboard',
+          url: '/dashboard',
         },
       ],
       drawer: false,
