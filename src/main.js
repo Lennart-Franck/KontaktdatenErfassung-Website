@@ -4,8 +4,11 @@ import router from './router'
 import store from './store'
 import axios from 'axios';
 import vuetify from './plugins/vuetify';
+import VModal from 'vue-js-modal'
 
 Vue.config.productionTip = false
+
+Vue.use(VModal)
 
 new Vue({
   router,
@@ -27,5 +30,6 @@ new Vue({
     )
   },
   vuetify,
+  VModal,
   render: h => h(App)
 }).$mount('#app')

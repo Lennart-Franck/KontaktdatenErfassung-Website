@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-app-bar app color="primary" dark>
+    <v-app-bar app color="primary" dark height="70">
       <v-app-bar-nav-icon
         class="hidden-md-and-up"
         @click.stop="drawer = !drawer"
@@ -8,7 +8,7 @@
       <v-img
         class="mx-2"
         src="../assets/logo_white_large.png"
-        max-width="180"
+        max-width="200"
         contain
         dark
       ></v-img>
@@ -107,7 +107,9 @@ export default {
   },
   methods: {
     logout() {
-      this.$store.dispatch('logout')
+      this.$store.dispatch('logout').then(() => {
+        this.$router.push('/')
+      })
     },
   },
 }

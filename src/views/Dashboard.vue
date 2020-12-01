@@ -1,5 +1,6 @@
 <template>
   <div>
+    <PlaceForm />
     <v-container>
       <v-row>
         <v-col cols="12" md="6">
@@ -7,7 +8,7 @@
           <h4>Hier können Sie alle Ihre Orte verwalten</h4>
         </v-col>
         <v-col offset-md="3">
-          <v-btn class="info">
+          <v-btn class="info" @click="$modal.show('place-form')">
             Ort hinzufügen
           </v-btn>
         </v-col>
@@ -43,9 +44,10 @@
 <script>
 import axios from 'axios'
 import PlaceCard from '../components/PlaceCard'
+import PlaceForm from '../components/PlaceForm'
 
 export default {
-  components: { PlaceCard },
+  components: { PlaceCard, PlaceForm },
   data() {
     return {
       isLoading: true,
@@ -62,6 +64,11 @@ export default {
         this.places = data
         this.isLoading = false
       })
+  },
+  methods: {
+    showModal() {
+      this.$modal.show('PlaceForm')
+    },
   },
 }
 </script>
