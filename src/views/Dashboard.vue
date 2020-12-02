@@ -5,7 +5,7 @@
       <v-row>
         <v-col cols="12" md="6">
           <h1>Dashboard</h1>
-          <h4>Hier können Sie alle Ihre Orte verwalten</h4>
+          <h4>Hier können Sie alle Ihre Standorte verwalten</h4>
         </v-col>
         <v-col offset-md="3">
           <v-btn class="info" @click="$modal.show('place-form')">

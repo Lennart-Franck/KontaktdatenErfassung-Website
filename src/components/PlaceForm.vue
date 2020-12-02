@@ -9,7 +9,7 @@
     <v-card>
       <v-toolbar dark color="primary">
         <v-toolbar-title>
-          Ort hinzufügen
+          Standort hinzufügen
         </v-toolbar-title>
       </v-toolbar>
       <v-card-text>
