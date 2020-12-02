@@ -21,7 +21,7 @@
         </v-list-item-subtitle>
       </v-list-item>
       <v-card-actions>
-        <v-btn class="info" rounded>
+        <v-btn class="info" @click="toPlace" rounded>
           Info
         </v-btn>
       </v-card-actions>
@@ -38,6 +38,11 @@ export default {
       default: () => {
         return {}
       },
+    },
+  },
+  methods: {
+    toPlace() {
+      this.$router.push({ path: `place/${this.place.ortId}` })
     },
   },
 }

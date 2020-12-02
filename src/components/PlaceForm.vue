@@ -107,8 +107,11 @@ export default {
       }
       axios
         .post('https://kontaktdaten-api.azurewebsites.net/api/places', Place)
-        .then(() => {
+        .then(({ data }) => {
           this.$modal.hide('place-form')
+          this.$store.dispatch('getPlaces').then(() => {
+            this.$router.push({ path: `place/${data.ortId}` })
+          })
         })
         .catch((err) => {
           console.log(err.response)

@@ -63,6 +63,9 @@ export default new Vuex.Store({
   getters: {
     loggedIn(state) {
       return !!state.user
+    },
+    getPlaceByID: (state) => (id) => {
+      return state.places.find(place => place.ortId === id)
     }
   }
 })
