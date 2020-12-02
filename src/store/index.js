@@ -9,7 +9,8 @@ const url = 'https://kontaktdaten-api.azurewebsites.net/api/';
 
 export default new Vuex.Store({
   state: {
-    user: null
+    user: null,
+    places: []
   },
   mutations: {
     SET_USER_DATA(state, userData) {
@@ -23,6 +24,9 @@ export default new Vuex.Store({
       localStorage.removeItem('user')
       state.user = null
       axios.defaults.headers.common['Authorization'] = null
+    },
+    SET_PLACES(state, placeData) {
+      state.places = placeData
     }
   },
   actions: {
@@ -45,6 +49,15 @@ export default new Vuex.Store({
     },
     logout({commit }) {
       commit('CLEAR_USER_DATA')
+    },
+    getPlaces({commit}) {
+      return axios
+      .get(
+        'https://kontaktdaten-api.azurewebsites.net/api/places/' +
+          this.state.user.userDetails.unternehmenID)
+      .then (({data}) => {
+        commit('SET_PLACES', data)
+      })
     }
   },
   getters: {

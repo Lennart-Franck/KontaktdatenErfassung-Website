@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PlaceForm />
+    <PlaceForm :places="places" />
     <v-container>
       <v-row>
         <v-col cols="12" md="6">
@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import PlaceCard from '../components/PlaceCard'
 import PlaceForm from '../components/PlaceForm'
 
@@ -55,15 +54,10 @@ export default {
     }
   },
   created() {
-    axios
-      .get(
-        'https://kontaktdaten-api.azurewebsites.net/api/places/' +
-          this.$store.state.user.userDetails.unternehmenID
-      )
-      .then(({ data }) => {
-        this.places = data
-        this.isLoading = false
-      })
+    this.$store.dispatch('getPlaces').then(() => {
+      this.isLoading = false
+      this.places = this.$store.state.places
+    })
   },
   methods: {
     showModal() {

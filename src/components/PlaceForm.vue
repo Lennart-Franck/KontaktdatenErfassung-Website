@@ -6,55 +6,70 @@
     :height="500"
     :adaptive="true"
   >
-    <v-container class="md-">
-      <div class="text-h4">Ort erstellen</div>
-      <div class="text-md-subheader-1">
-        Formular ausfüllen und ihrem Unternehmen einen Ort hinzufügen
-      </div>
-      <v-form v-model="formValidity" @submit.prevent="createPlace">
-        <v-text-field
-          label="Bezeichnung"
-          type="text"
-          v-model="bezeichnung"
-          required
-        ></v-text-field>
-        <v-text-field
-          label="Straße"
-          type="text"
-          v-model="straße"
-          :rules="straßeRules"
-          required
-        ></v-text-field>
-        <v-text-field
-          label="Hausnummer"
-          type="text"
-          :rules="hausnummerRules"
-          required
-        ></v-text-field>
-        <v-text-field
-          label="Postleitzahl"
-          type="number"
-          v-model="plz"
-          :rules="plzRules"
-        ></v-text-field>
-        <v-text-field
-          label="Stadt"
-          type="text"
-          v-model="stadt"
-          :rules="stadtRules"
-        ></v-text-field>
-        <v-spacer></v-spacer>
-        <v-spacer></v-spacer>
-        <v-btn :disabled="!formValidity" type="submit" color="primary">
+    <v-card>
+      <v-toolbar dark color="primary">
+        <v-toolbar-title>
           Ort hinzufügen
-        </v-btn>
-      </v-form>
-    </v-container>
+        </v-toolbar-title>
+      </v-toolbar>
+      <v-card-text>
+        <v-form v-model="formValidity" onSubmit="return false">
+          <v-text-field
+            label="Bezeichnung"
+            type="text"
+            v-model="bezeichnung"
+            required
+          ></v-text-field>
+          <v-text-field
+            label="Straße"
+            type="text"
+            v-model="straße"
+            :rules="straßeRules"
+            required
+          ></v-text-field>
+          <v-text-field
+            label="Hausnummer"
+            type="text"
+            :rules="hausnummerRules"
+            v-model="hausnummer"
+            required
+          ></v-text-field>
+          <v-text-field
+            label="Postleitzahl"
+            type="number"
+            v-model="plz"
+            :rules="plzRules"
+            :counter="5"
+          ></v-text-field>
+          <v-text-field
+            label="Stadt"
+            type="text"
+            v-model="stadt"
+            :rules="stadtRules"
+          ></v-text-field>
+          <v-card-actions>
+            <v-btn
+              :disabled="!formValidity"
+              type="submit"
+              color="primary"
+              @click.prevent="createPlace"
+            >
+              Ort hinzufügen
+            </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn color="red" @click="modal.hide(this)" dark>
+              Abbrechen
+            </v-btn>
+          </v-card-actions>
+        </v-form>
+      </v-card-text>
+    </v-card>
   </modal>
 </template>
 
 <script>
 const MODAL_WIDTH = 656
+import axios from 'axios'
 
 export default {
   name: 'PlaceForm',
@@ -65,7 +80,7 @@ export default {
       straßeRules: [],
       hausnummer: '',
       hausnummerRules: [],
-      plz: '',
+      plz: 0,
       plzRules: [
         (value) => value.lenght == 5 || 'Plz muss 5 Zahlen enthalten',
         (value) =>
@@ -77,8 +92,28 @@ export default {
       formValidity: false,
     }
   },
+  props: ['places'],
   methods: {
-    createPlace() {},
+    createPlace() {
+      const Place = {
+        unternehmenID: parseInt(
+          this.$store.state.user.userDetails.unternehmenID
+        ),
+        bezeichnung: this.bezeichnung,
+        straße: this.straße,
+        hausnummer: this.hausnummer,
+        plz: parseInt(this.plz),
+        stadt: this.stadt,
+      }
+      axios
+        .post('https://kontaktdaten-api.azurewebsites.net/api/places', Place)
+        .then(() => {
+          this.$modal.hide('place-form')
+        })
+        .catch((err) => {
+          console.log(err.response)
+        })
+    },
   },
   created() {
     this.modalWidth =
