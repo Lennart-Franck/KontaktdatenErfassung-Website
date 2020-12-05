@@ -28,6 +28,7 @@
               <v-text-field
                 label="Passwort wiederholen"
                 type="password"
+                v-model="passwortAgain"
                 :rules="passwortAgainRules"
                 required
               ></v-text-field>
@@ -49,16 +50,27 @@
                 :rules="agreeToTermsRules"
                 required
               ></v-checkbox>
-              <v-spacer></v-spacer>
-              <v-btn :disabled="!formValidity" type="submit" color="primary">
-                Registrieren
-              </v-btn>
+              <v-card-actions>
+                <v-btn :disabled="!formValidity" type="submit" color="primary">
+                  Registrieren
+                </v-btn>
+                <v-spacer></v-spacer>
+                <div v-if="isLoading">
+                  <v-progress-circular
+                    indeterminate
+                    color="primary"
+                  ></v-progress-circular>
+                </div>
+                <div class="red--text">
+                  {{ error }}
+                </div>
+                <v-spacer></v-spacer>
+              </v-card-actions>
             </v-form>
           </v-card-text>
         </v-card>
       </v-col>
     </v-row>
-    <p>{{ error }}</p>
   </v-container>
 </template>
 
@@ -88,6 +100,7 @@ export default {
       passwortRules: [
         (value) => value.length > 6 || 'Passwort Mindestlänge: 7 Zeichen',
       ],
+      passwortAgain: '',
       passwortAgainRules: [
         (value) => value == this.passwort || 'Passwort muss übereinstimmen',
       ],
@@ -95,20 +108,30 @@ export default {
       telefon: '',
       error: null,
       formValidity: false,
+      isLoading: false,
     }
   },
   methods: {
     register() {
-      this.$store
-        .dispatch('register', {
-          email: this.email,
-          passwort: this.passwort,
-          name: this.name,
-          telefon: this.telefon,
-        })
-        .then(() => {
-          this.$router.push('/dashboard')
-        })
+      if (this.passwort != this.passwortAgain) {
+        this.error = 'Passwort muss gleich dem wiederholten Passwort sein'
+      } else {
+        this.isLoading = true
+        this.$store
+          .dispatch('register', {
+            email: this.email,
+            passwort: this.passwort,
+            name: this.name,
+            telefon: this.telefon,
+          })
+          .then(() => {
+            this.$router.push('/dashboard')
+          })
+          .catch((err) => {
+            this.isLoading = false
+            this.error = err.response.data
+          })
+      }
     },
   },
 }

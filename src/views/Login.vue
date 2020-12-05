@@ -1,51 +1,53 @@
 <template>
   <div>
-    <v-card width="500" class="mx-auto mt-10" elevation="8">
-      <v-card-title class="text-lg-h4">
-        Einloggen
-      </v-card-title>
-      <v-card-text>
-        <v-form v-model="formValidity" onSubmit="return false">
-          <v-text-field
-            label="Email"
-            prepend-icon="mdi-account-circle"
-            v-model="email"
-            required
-            :rules="emailRules"
-            type="email"
-          />
-          <v-text-field
-            :type="showPassword ? 'text' : 'password'"
-            label="Passwort"
-            v-model="passwort"
-            prepend-icon="mdi-lock"
-            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append="showPassword = !showPassword"
-            required
-            :rules="passwordRules"
-          />
-          <v-card-actions>
-            <v-btn
-              color="primary"
-              @click.prevent="login"
-              :disabled="!formValidity"
-            >
-              Login
-            </v-btn>
-            <v-spacer></v-spacer>
-            <div v-if="isLoading">
-              <v-progress-circular
-                indeterminate
+    <v-container>
+      <v-card width="500" class="mx-auto mt-10" elevation="8">
+        <v-card-title class="text-lg-h4">
+          Einloggen
+        </v-card-title>
+        <v-card-text>
+          <v-form v-model="formValidity" onSubmit="return false">
+            <v-text-field
+              label="Email"
+              prepend-icon="mdi-account-circle"
+              v-model="email"
+              required
+              :rules="emailRules"
+              type="email"
+            />
+            <v-text-field
+              :type="showPassword ? 'text' : 'password'"
+              label="Passwort"
+              v-model="passwort"
+              prepend-icon="mdi-lock"
+              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append="showPassword = !showPassword"
+              required
+              :rules="passwordRules"
+            />
+            <v-card-actions>
+              <v-btn
                 color="primary"
-              ></v-progress-circular>
-            </div>
-            <div class="red--text">
-              {{ error }}
-            </div>
-          </v-card-actions>
-        </v-form>
-      </v-card-text>
-    </v-card>
+                @click.prevent="login"
+                :disabled="!formValidity"
+              >
+                Login
+              </v-btn>
+              <v-spacer></v-spacer>
+              <div v-if="isLoading">
+                <v-progress-circular
+                  indeterminate
+                  color="primary"
+                ></v-progress-circular>
+              </div>
+              <div class="red--text">
+                {{ error }}
+              </div>
+            </v-card-actions>
+          </v-form>
+        </v-card-text>
+      </v-card>
+    </v-container>
   </div>
 </template>
 <script>

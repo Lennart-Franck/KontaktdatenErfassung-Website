@@ -43,7 +43,7 @@
       </div>
     </v-app-bar>
 
-    <v-navigation-drawer v-model="drawer" absolute temporary>
+    <v-navigation-drawer v-model="drawer" fixed app>
       <v-list nav dense>
         <v-list-item-group active-class="deep-blue--text text--accent-4">
           <div v-if="!loggedIn">
@@ -94,6 +94,10 @@ export default {
         },
       ],
       authLinks: [
+        {
+          label: 'Home',
+          url: '/',
+        },
         {
           label: 'Dashboard',
           url: '/dashboard',

@@ -1,8 +1,10 @@
 <template>
   <div>
-    <v-card elevation="10">
-      <v-card-title class="text-md-h4">
-        {{ place.bezeichnung }}
+    <v-card elevation="8" class="pa-1" @click="toPlace">
+      <v-card-title class="text-md-h5">
+        <p>
+          {{ place.bezeichnung }}
+        </p>
       </v-card-title>
       <v-list-item>
         <v-list-item-icon>
@@ -20,11 +22,6 @@
           {{ place.plz + ', ' + place.stadt }}
         </v-list-item-subtitle>
       </v-list-item>
-      <v-card-actions>
-        <v-btn class="info" @click="toPlace" rounded>
-          Info
-        </v-btn>
-      </v-card-actions>
     </v-card>
   </div>
 </template>

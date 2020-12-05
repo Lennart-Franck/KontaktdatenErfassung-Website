@@ -57,7 +57,7 @@
               Ort hinzufügen
             </v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="red" @click="modal.hide(this)" dark>
+            <v-btn color="red darken-2" @click="$modal.hide('place-form')" dark>
               Abbrechen
             </v-btn>
           </v-card-actions>
