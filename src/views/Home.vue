@@ -11,15 +11,15 @@
           Zettel.
         </p>
         <v-row>
-          <v-col cols="5">
-            <v-img src="../assets/appStore.svg"></v-img>
+          <v-col cols="6" lg="5" xl="5">
+            <v-img src="../assets/AppStore.svg"></v-img>
           </v-col>
-          <v-col cols="5" offset="1">
-            <v-img src="../assets/googlePlay.svg"></v-img>
+          <v-col cols="6" lg="5" class="mt-n1">
+            <v-img src="../assets/google-play-badge.png"></v-img>
           </v-col>
         </v-row>
       </v-col>
-      <v-col cols="8" offset="2" sm="5" offset-sm="1">
+      <v-col cols="8" offset="2" sm="5" offset-sm="1" lg="5" xl="5">
         <v-img src="../assets/startLogo.png"></v-img>
       </v-col>
     </v-row>
