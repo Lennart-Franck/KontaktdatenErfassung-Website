@@ -12,7 +12,7 @@
         </p>
         <v-row>
           <v-col cols="6" lg="5" xl="5">
-            <v-img src="../assets/AppStore.svg"></v-img>
+            <v-img src="../assets/app-store-de.png"></v-img>
           </v-col>
           <v-col cols="6" lg="5" class="mt-n1">
             <v-img src="../assets/google-play-badge.png"></v-img>
