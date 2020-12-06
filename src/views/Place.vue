@@ -8,7 +8,7 @@
           </v-toolbar-title>
         </v-toolbar>
         <v-row class="py-5">
-          <v-col cols="5" offset="1">
+          <v-col cols="12" sm="5" offset="1">
             <div class="text-left">
               <h3>Daten:</h3>
               <v-list-item class="mt-2">
@@ -42,7 +42,7 @@
             </div>
           </v-col>
           <v-divider vertical></v-divider>
-          <v-col cols="4" offset="1" class="text-middle">
+          <v-col cols="12" sm="4" offset-sm="1" class="text-middle">
             <div class="text-center">
               <h3>Ihr QR-Code:</h3>
               <div class="text-md-subtitle-1">

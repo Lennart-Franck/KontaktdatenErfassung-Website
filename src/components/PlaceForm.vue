@@ -13,7 +13,7 @@
         </v-toolbar-title>
       </v-toolbar>
       <v-card-text>
-        <v-form v-model="formValidity" onSubmit="return false">
+        <v-form v-model="IsValid" @submit.prevent="createPlace">
           <v-text-field
             label="Bezeichnung"
             type="text"
@@ -36,24 +36,21 @@
           ></v-text-field>
           <v-text-field
             label="Postleitzahl"
-            type="number"
+            type="text"
             v-model="plz"
             :rules="plzRules"
             :counter="5"
+            required
           ></v-text-field>
           <v-text-field
             label="Stadt"
             type="text"
             v-model="stadt"
             :rules="stadtRules"
+            required
           ></v-text-field>
           <v-card-actions>
-            <v-btn
-              :disabled="!formValidity"
-              type="submit"
-              color="primary"
-              @click.prevent="createPlace"
-            >
+            <v-btn :disabled="!IsValid" type="submit" color="primary">
               Ort hinzufügen
             </v-btn>
             <v-spacer></v-spacer>
@@ -77,19 +74,32 @@ export default {
     return {
       bezeichnung: '',
       straße: '',
-      straßeRules: [],
+      straßeRules: [
+        (value) =>
+          /^[A-Za-zß. ]+$/.test(value) ||
+          'Straße darf nur Buchstaben enthalten',
+      ],
       hausnummer: '',
-      hausnummerRules: [],
+      hausnummerRules: [
+        (value) =>
+          /^\d+[a-zA-Z]?$/.test(value) ||
+          'Hausnummer muss das korrekte Format haben',
+      ],
       plz: 0,
       plzRules: [
-        (value) => value.lenght == 5 || 'Plz muss 5 Zahlen enthalten',
         (value) =>
-          value.contains(['A-Z']) || 'Plz darf nur aus Zahlen bestehen',
+          /^[0-9]+$/.test(value) ||
+          'Postleitszahl darf nur aus Zahlen bestehen',
+        (value) =>
+          value.length == 5 || 'Postleitszahl darf nur aus 5 Zahlen bestehen',
       ],
       stadt: '',
-      stadtRules: [],
+      stadtRules: [
+        (value) =>
+          /^[A-Za-zß ]+$/.test(value) || 'Stadt darf nur Buchstaben enthalten',
+      ],
       modalWidth: MODAL_WIDTH,
-      formValidity: false,
+      IsValid: false,
     }
   },
   props: ['places'],
