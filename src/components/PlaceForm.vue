@@ -18,6 +18,7 @@
             label="Bezeichnung"
             type="text"
             v-model="bezeichnung"
+            :rules="bezeichnungRules"
             required
           ></v-text-field>
           <v-text-field
@@ -73,6 +74,10 @@ export default {
   data() {
     return {
       bezeichnung: '',
+      bezeichnungRules: [
+        (value) =>
+          value.length < 30 || 'Bezeichnung muss kürzer als 30 Zeichen sein',
+      ],
       straße: '',
       straßeRules: [
         (value) =>

@@ -53,9 +53,9 @@
                     visible: true,
                     type: 'image/png',
                   }"
-                  :value="place.ortId"
+                  :value="barcode.encrypted"
                   :options="{
-                    size: 200,
+                    size: size,
                     level: 'Q',
                   }"
                 ></vrcode>
@@ -77,6 +77,8 @@ export default {
       placeID: this.$route.params.id,
       place: [],
       visits: [],
+      barcode: [],
+      size: 250,
     }
   },
   created() {
@@ -87,6 +89,19 @@ export default {
       )
       .then(({ data }) => {
         this.visits = data
+      })
+      .catch((err) => {
+        console.log(err.response.data)
+      })
+  },
+  mounted() {
+    axios
+      .get(
+        'https://kontaktdaten-api.azurewebsites.net/api/barcode/' + this.placeID
+      )
+      .then(({ data }) => {
+        this.barcode = data
+        this.size = 251
       })
       .catch((err) => {
         console.log(err.response.data)

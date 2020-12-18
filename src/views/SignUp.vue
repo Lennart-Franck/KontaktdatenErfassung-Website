@@ -114,8 +114,9 @@ export default {
   methods: {
     register() {
       if (this.passwort != this.passwortAgain) {
-        this.error = 'Passwort muss gleich dem wiederholten Passwort sein'
+        this.error = 'Passwort stimmt nicht überein'
       } else {
+        this.error = null
         this.isLoading = true
         this.$store
           .dispatch('register', {

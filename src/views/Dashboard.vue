@@ -8,8 +8,9 @@
           <h4>Hier können Sie alle Ihre Standorte verwalten</h4>
         </v-col>
         <v-col offset-md="4" class="mt-7" cols="2">
-          <v-btn class="info" @click="$modal.show('place-form')">
+          <v-btn color="blue" dark @click="$modal.show('place-form')">
             Ort hinzufügen
+            <v-icon class="ml-2">mdi-plus-circle</v-icon>
           </v-btn>
         </v-col>
       </v-row>
